@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "ejs": "^3.1.10",
+    "inquirer": "^9.2.23",
+    "js-yaml": "^4.1.0"
+  },
+  "scripts": {
+    "rudder": "node index.js"
+  },
+  "type": "module"
+}
