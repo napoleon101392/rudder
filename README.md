@@ -1,4 +1,4 @@
-# Project Name
+# Rudder
 
 This is a Node.js application that uses Docker to manage services. Currently It provides two main commands: `init` and `install`. Please note that this project is currently under development, and the command structure may change in the future.
 
