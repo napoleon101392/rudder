@@ -1,4 +1,7 @@
 {
+  "name": "rudder-cli",
+  "version": "1.0.0",
+  "description": "A brief description of your package",
   "dependencies": {
     "chalk": "^5.3.0",
     "commander": "^12.1.0",
@@ -9,5 +12,10 @@
   "scripts": {
     "rudder": "node index.js"
   },
-  "type": "module"
+  "bin": {
+    "rudder": "./index.js"
+  },
+  "type": "module",
+  "author": "Nap",
+  "license": "MIT"
 }
