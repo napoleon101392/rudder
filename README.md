@@ -14,7 +14,7 @@ To run this command, use:
 node index.js init
 ```
 
-### install
+### `install`
 The `install` command installs docker services. The install command is implemented in the [`Installation`](src/commands/Installation.js) class.
 
 To run this command, use:
