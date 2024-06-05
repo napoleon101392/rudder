@@ -1,9 +1,0 @@
-version: '3.8'
-services:
-  nginx:
-    extends:
-      file: .docker/nginx/docker-compose.yml
-      service: nginx
-networks:
-  acme_network:
-    driver: bridge
