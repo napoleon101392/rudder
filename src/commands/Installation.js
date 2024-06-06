@@ -8,7 +8,11 @@ async function handleService(serviceName, networks) {
     const params = await enterParams(serviceName);
     const networkAnswer = await selectNetwork(serviceName, networks);
     const installedServices = await getServices('.docker');
-    const dependsOnAnswer = await selectDependsOn(serviceName, installedServices);
+
+    let dependsOnAnswer = { dependsOn: [] };
+    if (installedServices.length > 0) {
+        dependsOnAnswer = await selectDependsOn(serviceName, installedServices);
+    }
 
     const dockerComposeContent = renderTemplate(serviceName, versionAnswer.version, params);
     updateDockerCompose(serviceName, dockerComposeContent, networkAnswer.network, dependsOnAnswer.dependsOn);
@@ -18,7 +22,6 @@ async function handleService(serviceName, networks) {
 async function install() {
     const dockerCompose = loadDockerCompose();
     const networks = Object.keys(dockerCompose.networks || {});
-    const services = Object.keys(dockerCompose.services || {});
     const answers = await selectServices();
 
     const servicePromises = answers.services.map(serviceName => handleService(serviceName, networks));

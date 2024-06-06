@@ -4,6 +4,17 @@ const services = [
     { name: 'nginx', versions: ['latest', 'alpine'], params: ['port'] },
 ];
 
+export function askToCreateDirectory(path) {
+    return inquirer.prompt([
+        {
+            default: true,
+            type: 'confirm',
+            message: 'The does not exist. Do you want to create it?',
+            name: 'createDirectory',
+        },
+    ]);
+}
+
 export function selectServices() {
     return inquirer.prompt([
         {

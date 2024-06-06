@@ -15,15 +15,6 @@ export function updateDockerCompose(serviceName, dockerComposeContent, networkNa
         services: {}
     };
     serviceDockerCompose.services[serviceName] = yaml.load(dockerComposeContent)[serviceName];
-    if (networkName && networkName !== 'none') {
-        serviceDockerCompose.services[serviceName].networks = [networkName];
-        console.log(chalk.cyan(`Network ${networkName} added to the service ${serviceName}`));
-    }
-
-    if (dependsOn && dependsOn !== 'none' && dependsOn !== serviceName) {
-        serviceDockerCompose.services[serviceName].depends_on = [dependsOn];
-        console.log(chalk.cyan(`Service ${serviceName} now depends on ${dependsOn}`));
-    }
 
     const serviceDockerComposePath = path.join('.docker', serviceName, 'docker-compose.yml');
     fs.mkdirSync(path.dirname(serviceDockerComposePath), { recursive: true });
@@ -37,6 +28,18 @@ export function updateDockerCompose(serviceName, dockerComposeContent, networkNa
             service: serviceName
         }
     };
+
+    // Add the depends_on field to the main Docker Compose file if dependsOn is truthy and has at least one element
+    if (dependsOn && dependsOn.length > 0) {
+        mainDockerCompose.services[serviceName].depends_on = [dependsOn];
+        console.log(chalk.cyan(`Service ${serviceName} now depends on ${dependsOn}`));
+    }
+
+    // Add the networks field to the main Docker Compose file if network is truthy
+    if (networkName && networkName !== 'none') {
+        mainDockerCompose.services[serviceName].networks = [networkName];
+        console.log(chalk.cyan(`Network ${networkName} added to the service ${serviceName}`));
+    }
 
     fs.writeFileSync('docker-compose.yml', yaml.dump(mainDockerCompose, { indent: 2 }));
     console.log(chalk.cyan(`Main Docker Compose file updated with the service ${serviceName}`));
