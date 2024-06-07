@@ -1,7 +1,7 @@
 import inquirer from 'inquirer';
 
 const services = [
-    { name: 'nginx', versions: ['latest', 'alpine'], params: ['port'] },
+    { name: 'nginx', tag: ['latest', 'alpine'], params: ['port'] },
 ];
 
 export function askToCreateDirectory(path) {
@@ -26,14 +26,14 @@ export function selectServices() {
     ]);
 }
 
-export function selectVersion(serviceName) {
+export function selectTag(serviceName) {
     const service = services.find(service => service.name === serviceName);
     return inquirer.prompt([
         {
             type: 'list',
-            message: `Select version for ${serviceName}`,
-            name: 'version',
-            choices: service.versions,
+            message: `Select tag for ${serviceName}`,
+            name: 'imageTag',
+            choices: service.tag,
         },
     ]);
 }
