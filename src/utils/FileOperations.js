@@ -1,10 +1,11 @@
 import fs from 'fs';
 import path from 'path';
 import { askToCreateDirectory } from './ServicePrompts.js';
+import config from '../../config.js';
 
 export function copyIncFiles(serviceName) {
     const sourceDirectory = path.join('src', 'services', serviceName, 'inc');
-    const destinationDirectory = path.join('.docker', serviceName);
+    const destinationDirectory = path.join(config.dockerServicesDestination, serviceName);
 
     fs.readdir(sourceDirectory, (err, files) => {
         if (err) {
@@ -27,7 +28,7 @@ export function copyIncFiles(serviceName) {
     });
 }
 
-// Get the list of services from the .docker directory
+// Get the list of services from the config.dockerServicesDestination directory
 export const getServices = async (dockerDirectory) => {
     if (!fs.existsSync(dockerDirectory)) {
         const createDirectoryAnswer = await askToCreateDirectory(dockerDirectory);

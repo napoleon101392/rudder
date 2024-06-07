@@ -2,12 +2,13 @@ import { selectServices, selectVersion, enterParams, selectNetwork, selectDepend
 import { copyIncFiles, getServices } from '../utils/FileOperations.js';
 import { renderTemplate } from '../utils/TemplateRendering.js';
 import { loadDockerCompose, updateDockerCompose } from '../utils/DockerComposeOperations.js';
+import config from '../../config.js';
 
 async function handleService(serviceName, networks) {
     const versionAnswer = await selectVersion(serviceName);
     const params = await enterParams(serviceName);
     const networkAnswer = await selectNetwork(serviceName, networks);
-    const installedServices = await getServices('.docker');
+    const installedServices = await getServices(config.dockerServicesDestination);
 
     let dependsOnAnswer = { dependsOn: [] };
     if (installedServices.length > 0) {

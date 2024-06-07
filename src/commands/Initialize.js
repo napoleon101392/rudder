@@ -1,5 +1,6 @@
 import fs from 'fs';
 import inquirer from 'inquirer';
+import config from '../../config.js';
 
 async function init() {
     const { projectName } = await inquirer.prompt([
@@ -25,7 +26,7 @@ networks:
     driver: bridge
 `;
 
-    fs.writeFileSync('docker-compose.yml', dockerCompose);
+    fs.writeFileSync(config.dockerServicesDestination + '/docker-compose.yml', dockerCompose);
 }
 
 export default {

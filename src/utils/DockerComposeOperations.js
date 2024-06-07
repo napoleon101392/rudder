@@ -2,6 +2,7 @@ import fs from 'fs';
 import yaml from 'js-yaml';
 import path from 'path';
 import chalk from 'chalk';
+import config from '../../config.js';
 
 export function loadDockerCompose() {
     const dockerComposeYaml = fs.readFileSync('docker-compose.yml', 'utf8');
@@ -16,7 +17,7 @@ export function updateDockerCompose(serviceName, dockerComposeContent, networkNa
     };
     serviceDockerCompose.services[serviceName] = yaml.load(dockerComposeContent)[serviceName];
 
-    const serviceDockerComposePath = path.join('.docker', serviceName, 'docker-compose.yml');
+    const serviceDockerComposePath = path.join(config.dockerServicesDestination, serviceName, 'docker-compose.yml');
     fs.mkdirSync(path.dirname(serviceDockerComposePath), { recursive: true });
     fs.writeFileSync(serviceDockerComposePath, yaml.dump(serviceDockerCompose, { indent: 2 }));
     console.log(chalk.cyan(`Service Docker Compose file for ${serviceName} created at ${serviceDockerComposePath}`));
