@@ -1,3 +1,5 @@
 {
-  "dockerServicesDestination": "docker"
+  "dockerServicesDestination": ".docker",
+  "parentDockerComposeFile": "docker-compose.yml",
+  "dockerComposeVersion": "3.8"
 }

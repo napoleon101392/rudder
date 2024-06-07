@@ -5,11 +5,3 @@
       - ./default.conf:/etc/nginx/conf.d/default.conf
     ports:
       - "<%= params['port'] %>:80"
-  <% if (params['networks']) { %>
-    networks:
-      - <%= params['networks'] %>
-  <% } %>
-  <% if (params['depends_on']) { %>
-    depends_on:
-      - <%= params['depends_on'] %>
-  <% } %>

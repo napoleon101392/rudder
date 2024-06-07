@@ -5,14 +5,14 @@ import chalk from 'chalk';
 import config from '../../config.js';
 
 export function loadDockerCompose() {
-    const dockerComposeYaml = fs.readFileSync('docker-compose.yml', 'utf8');
+    const dockerComposeYaml = fs.readFileSync(config.parentDockerComposeFile, 'utf8');
     return yaml.load(dockerComposeYaml);
 }
 
 export function updateDockerCompose(serviceName, dockerComposeContent, networkName, dependsOn) {
     const mainDockerCompose = loadDockerCompose();
     const serviceDockerCompose = {
-        version: '3.8',
+        // version: config.dockerComposeVersion,
         services: {}
     };
     serviceDockerCompose.services[serviceName] = yaml.load(dockerComposeContent)[serviceName];
@@ -42,7 +42,7 @@ export function updateDockerCompose(serviceName, dockerComposeContent, networkNa
         console.log(chalk.cyan(`Network ${networkName} added to the service ${serviceName}`));
     }
 
-    fs.writeFileSync('docker-compose.yml', yaml.dump(mainDockerCompose, { indent: 2 }));
+    fs.writeFileSync(config.parentDockerComposeFile, yaml.dump(mainDockerCompose, { indent: 2 }));
     console.log(chalk.cyan(`Main Docker Compose file updated with the service ${serviceName}`));
-    console.log(chalk.cyan(`You can view the updated file here: vscode://file/${path.resolve('docker-compose.yml')}`));
+    console.log(chalk.cyan(`You can view the updated file here: vscode://file/${path.resolve(config.parentDockerComposeFile)}`));
 }

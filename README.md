@@ -29,3 +29,11 @@ In the future, the command structure will look something like this:
 ```sh
 node rudder <arg>
 ```
+
+### Configuration file
+By creating a `.rudder` file on your root directory, you have the ability to alter the JSON configuration. Below are the fields available for modification:
+
+| Key | Value | Description |
+| --- | --- | --- |
+| `dockerServicesDestination` | `.docker` | The destination path for Docker services. |
+| `parentDockerComposeFile` | `docker-compose.yml` | The main Docker Compose file. |
