@@ -1,7 +1,7 @@
 import fs from 'fs';
 import inquirer from 'inquirer';
 import config from '../../config.js';
-import ejs from 'ejs';
+import yaml from 'js-yaml';
 
 async function init() {
     const { projectName } = await inquirer.prompt([
@@ -18,13 +18,17 @@ async function init() {
         },
     ]);
 
-    ejs.renderFile('./docker-compose.ejs', { projectName , version: config.dockerComposeVersion}, {}, function(err, str){
-        if(err) {
-            console.error(err);
-        } else {
-            fs.writeFileSync(config.parentDockerComposeFile, str);
+    const dockerComposeYaml = yaml.dump({
+        version: config.dockerComposeVersion,
+        services: null,
+        networks: {
+            [projectName]: {
+                driver: 'bridge'
+            }
         }
     });
+
+    fs.writeFileSync(config.parentDockerComposeFile, dockerComposeYaml);
 }
 
 export default {
