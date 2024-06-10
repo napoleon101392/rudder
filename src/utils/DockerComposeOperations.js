@@ -11,8 +11,13 @@ export function loadDockerCompose() {
 
 export function updateDockerCompose(serviceName, dockerComposeContent, networkName, dependsOn) {
     const mainDockerCompose = loadDockerCompose();
+    const serviceDockerComposePath = createServiceDockerCompose(serviceName, dockerComposeContent);
+    updateMainDockerCompose(serviceName, mainDockerCompose, serviceDockerComposePath, networkName, dependsOn);
+    logUpdate(serviceName, serviceDockerComposePath);
+}
+
+function createServiceDockerCompose(serviceName, dockerComposeContent) {
     const serviceDockerCompose = {
-        // version: config.dockerComposeVersion,
         services: {}
     };
     serviceDockerCompose.services[serviceName] = yaml.load(dockerComposeContent)[serviceName];
@@ -20,8 +25,11 @@ export function updateDockerCompose(serviceName, dockerComposeContent, networkNa
     const serviceDockerComposePath = path.join(config.dockerServicesDestination, serviceName, 'docker-compose.yml');
     fs.mkdirSync(path.dirname(serviceDockerComposePath), { recursive: true });
     fs.writeFileSync(serviceDockerComposePath, yaml.dump(serviceDockerCompose, { indent: 2 }));
-    console.log(chalk.cyan(`Service Docker Compose file for ${serviceName} created at ${serviceDockerComposePath}`));
 
+    return serviceDockerComposePath;
+}
+
+function updateMainDockerCompose(serviceName, mainDockerCompose, serviceDockerComposePath, networkName, dependsOn) {
     mainDockerCompose.services = mainDockerCompose.services || {};
     mainDockerCompose.services[serviceName] = {
         extends: {
@@ -30,19 +38,19 @@ export function updateDockerCompose(serviceName, dockerComposeContent, networkNa
         }
     };
 
-    // Add the depends_on field to the main Docker Compose file if dependsOn is truthy and has at least one element
     if (dependsOn && dependsOn.length > 0) {
         mainDockerCompose.services[serviceName].depends_on = [dependsOn];
-        console.log(chalk.cyan(`Service ${serviceName} now depends on ${dependsOn}`));
     }
 
-    // Add the networks field to the main Docker Compose file if network is truthy
     if (networkName && networkName !== 'none') {
         mainDockerCompose.services[serviceName].networks = [networkName];
-        console.log(chalk.cyan(`Network ${networkName} added to the service ${serviceName}`));
     }
 
     fs.writeFileSync(config.parentDockerComposeFile, yaml.dump(mainDockerCompose, { indent: 2 }));
+}
+
+function logUpdate(serviceName, serviceDockerComposePath) {
+    console.log(chalk.cyan(`Service Docker Compose file for ${serviceName} created at ${serviceDockerComposePath}`));
     console.log(chalk.cyan(`Main Docker Compose file updated with the service ${serviceName}`));
     console.log(chalk.cyan(`You can view the updated file here: vscode://file/${path.resolve(config.parentDockerComposeFile)}`));
 }
