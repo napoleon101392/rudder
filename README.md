@@ -27,7 +27,7 @@ node index.js install
 In the future, the command structure will look something like this:
 
 ```sh
-node rudder <arg>
+rudder {command}
 ```
 
 ### Configuration file
