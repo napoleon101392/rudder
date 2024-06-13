@@ -1,0 +1,7 @@
+mysql:
+  image: <%= name %>:<%= tag %>
+  environment:
+    MYSQL_ROOT_PASSWORD: "<%= params['MYSQL_ROOT_PASSWORD'] %>"
+    MYSQL_DATABASE: "<%= params['MYSQL_DATABASE'] %>"
+    MYSQL_USER: "<%= params['MYSQL_USER'] %>"
+    MYSQL_PASSWORD: "<%= params['MYSQL_PASSWORD'] %>"

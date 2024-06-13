@@ -2,6 +2,7 @@ import inquirer from 'inquirer';
 
 const services = [
     { name: 'nginx', tag: ['latest', 'alpine'], params: ['port'] },
+    { name: 'mysql', tag: ['5.7', '5.6'], params: ['MYSQL_ROOT_PASSWORD', 'MYSQL_DATABASE', 'MYSQL_USER', 'MYSQL_PASSWORD'] },
 ];
 
 export function askToCreateDirectory(path) {
