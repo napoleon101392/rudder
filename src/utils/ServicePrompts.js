@@ -19,7 +19,7 @@ export function askToCreateDirectory(path) {
 export function selectServices() {
     return inquirer.prompt([
         {
-            type: 'checkbox',
+            type: 'list',
             message: 'Select services',
             name: 'services',
             choices: services.map(service => service.name),

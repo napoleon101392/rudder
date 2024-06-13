@@ -7,6 +7,11 @@ export function copyIncFiles(serviceName) {
     const sourceDirectory = path.join('src', 'services', serviceName, 'inc');
     const destinationDirectory = path.join(config.dockerServicesDestination, serviceName);
 
+    if (!fs.existsSync(sourceDirectory)) {
+        console.log(`Skipping copying inc files for ${serviceName} as the directory does not exist`);
+        return;
+    }
+
     fs.readdir(sourceDirectory, (err, files) => {
         if (err) {
             console.error(`Failed to read directory: ${sourceDirectory}`);
@@ -45,7 +50,6 @@ export const getServices = async (dockerDirectory) => {
             if (err) {
                 reject(err);
             } else {
-                // Filter out non-directory files
                 const services = files.filter(file => fs.statSync(path.join(dockerDirectory, file)).isDirectory());
                 resolve(services);
             }

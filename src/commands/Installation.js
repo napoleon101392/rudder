@@ -23,10 +23,10 @@ async function handleService(serviceName, networks) {
 async function install() {
     const dockerCompose = loadDockerCompose();
     const networks = Object.keys(dockerCompose.networks || {});
-    const answers = await selectServices();
+    const docker = await selectServices();
 
-    const servicePromises = answers.services.map(serviceName => handleService(serviceName, networks));
-    await Promise.all(servicePromises);
+    const servicePromise = handleService(docker.services, networks);
+    await Promise.all([servicePromise]);
 }
 
 export default {
