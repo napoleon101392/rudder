@@ -2,6 +2,13 @@
 
 This is a Node.js application that uses Docker to manage services. Currently It provides two main commands: `init` and `install`. Please note that this project is currently under development, and the command structure may change in the future.
 
+## Installation
+
+To install this application globally, run:
+
+```sh
+npm install -g rudder-cli
+```
 ## Commands
 
 ### `init`
@@ -11,7 +18,7 @@ The `init` command initializes the application. It is implemented in the [`Initi
 To run this command, use:
 
 ```sh
-node index.js init
+rudder init
 ```
 
 ### `install`
@@ -20,14 +27,7 @@ The `install` command installs docker services. The install command is implement
 To run this command, use:
 
 ```sh
-node index.js install
-```
-
-### Future Command Structure
-In the future, the command structure will look something like this:
-
-```sh
-rudder {command}
+rudder install
 ```
 
 ### Configuration file
